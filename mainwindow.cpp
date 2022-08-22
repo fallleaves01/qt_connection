@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->connectButton->setEnabled(true);
         ui->disconnectButton->setEnabled(false);
     });
-    connect(con, &Connection::receivedMessage, this, [this](QByteArray message) {
-        qDebug() << "接收到信息：" << message;
+    connect(con, &Connection::receivedData, this, [this](Encoding::Data data) {
+        qDebug() << "接收到信息：" << data.getContent().c_str();
     });
     connect(ui->connectButton, &QPushButton::clicked, this, [this]() {
         QString ip = ui->ipText->text();
@@ -35,11 +35,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->sendButton, &QPushButton::clicked, this, [this]() {
         QByteArray message = ui->messageText->toPlainText().toUtf8();
-        con->sendMessage(message);
+        Encoding::Data d(0, 0, 1, "17:41", Connection::trans(message));
+        con->sendData(d);
+        //con->sendMessage(message);
     });
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete con;
 }
