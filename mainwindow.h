@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "connection.h"
+#include "./Network/connection.h"
 
 namespace Ui {
 class MainWindow;

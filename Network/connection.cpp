@@ -1,5 +1,6 @@
 #include "connection.h"
 #include <QDebug>
+#include <QNetworkProxy>
 Connection::Connection(QWidget *parent = 0) : QWidget(parent) {
     tcp = new QTcpSocket(this);
     connect(tcp, &QTcpSocket::connected, this, [this] {
@@ -52,7 +53,13 @@ void Connection::readData() {
 }
 
 void Connection::connectTo(QHostAddress ip, unsigned short port) {
+    qDebug() << "try connect to " << ip << ' ' << port;
+    tcp->setProxy(QNetworkProxy::NoProxy);
     tcp->connectToHost(ip, port);
+    if (!tcp->waitForConnected(1)) {
+        qDebug() << "connecting failed";
+        connectingFailed();
+    }
 }
 
 void Connection::disconnect() {

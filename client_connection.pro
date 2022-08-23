@@ -26,11 +26,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    connection.cpp \
-    encoding.cpp
+    ./Network/connection.cpp \
+    ./DataModel/encoding.cpp \
 
 HEADERS  += mainwindow.h \
-    connection.h \
-    encoding.h
+    ./Network/connection.h \
+    ./DataModel/encoding.h \
 
 FORMS    += mainwindow.ui
